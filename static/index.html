@@ -38,13 +38,19 @@
       width: 100%;
       max-width: 1200px;
     }
-    #editor .CodeMirror {
-    resize: vertical;
-    overflow: auto;
-    min-height: 300px;
-  }
+    
+#editor {
+  flex: 1;
+  min-width: 60%;
+  height: 600px;
+}
 
-    }
+.CodeMirror {
+  height: 100%;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
     .output {
       width: 40%;
     }
