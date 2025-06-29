@@ -1,4 +1,4 @@
-#Importy i konfiguracja# 
+#Importy i konfiguracja 
 
 import os
 import shutil
@@ -6,7 +6,7 @@ import subprocess
 from openai import OpenAI
 from dotenv import load_dotenv
 
-#Ładowanie  zmiennych środowiskowych i inicjalizacja OpenAI #
+#Ładowanie  zmiennych środowiskowych i inicjalizacja OpenAI 
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -27,6 +27,8 @@ def run_black(input_file, output_file):
     except subprocess.CalledProcessError:
         print("⚠️  [black] Nie udało się sformatować kodu – prawdopodobnie błąd składniowy.")
 
+#Funkcje pomocnicze odczytu i zapisu plików 
+
 def read_file(file_path):
     with open(file_path, "r") as f:
         return f.read()
@@ -34,6 +36,8 @@ def read_file(file_path):
 def write_file(file_path, content):
     with open(file_path, "w", encoding="utf-8") as f:
         f.write(content)
+
+#Prompt engineering ;) odpytywanie AI o feedback 
 
 def ask_openai_for_feedback(code):
     prompt = (
@@ -52,6 +56,8 @@ def ask_openai_for_feedback(code):
 
     return response.choices[0].message.content.strip()
 
+#Logiczna stona aplikacji
+
 def main():
     print("[1] Formatowanie kodu...")
     run_black(INPUT_FILE, CLEAN_FILE)
@@ -67,6 +73,8 @@ def main():
     print(f"- {CLEAN_FILE}")
     print(f"- {COMMENTED_FILE}")
 
+
+#Uruchomienie skryptu
 if __name__ == "__main__":
     main()
 
