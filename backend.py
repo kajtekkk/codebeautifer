@@ -1,3 +1,4 @@
+#Importowanie 
 from flask import Flask, request, jsonify
 import subprocess
 import openai
@@ -5,11 +6,14 @@ import os
 import traceback
 from dotenv import load_dotenv
 
+#Ładowanie API
 load_dotenv()
 
+#Inicjalizacja aplikacji Flask
 app = Flask(__name__)
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+#Punkt dostepu analizy kodu
 @app.route("/analyze", methods=["POST"])
 def analyze():
     code = request.json.get("code", "")
