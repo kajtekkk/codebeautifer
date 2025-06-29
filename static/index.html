@@ -1,25 +1,95 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Python + AI Analyzer</title>
+  <title>Code Beautifier</title>
   <style>
-    body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
-    textarea { width: 100%; height: 300px; font-family: monospace; }
-    button { padding: 10px 20px; margin: 10px 0; }
-    pre { background: #eee; padding: 10px; white-space: pre-wrap; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    header img {
+      height: 60px;
+      margin-right: 15px;
+    }
+    header h1 {
+      font-size: 32px;
+      color: #fefefe;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+    }
+    textarea {
+      background-color: #1e1e1e;
+      color: #f1f1f1;
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      width: 60%;
+      height: 500px;
+      font-family: monospace;
+      font-size: 14px;
+    }
+    .output {
+      width: 40%;
+    }
+    button {
+      background-color: #2979ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 20px 0;
+      cursor: pointer;
+    }
+    h2 {
+      margin-top: 20px;
+      color: #90caf9;
+    }
+    pre {
+      background-color: #1c1c1c;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      margin-bottom: 15px;
+    }
   </style>
 </head>
 <body>
-  <h1>Python AI Code Analyzer</h1>
-  <textarea id="code" placeholder="Wklej tutaj kod Pythona..."></textarea><br>
-  <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
-  <h2>Wynik:</h2>
-  <pre id="output"></pre>
-  <h2>Błędy (jeśli są):</h2>
-  <pre id="error"></pre>
-  <h2>AI Feedback:</h2>
-  <pre id="ai"></pre>
+  <header>
+    <img src="logo.png" alt="logo">
+    <h1>Code Beautifier</h1>
+  </header>
+  <div class="container">
+    <textarea id="code" placeholder="# Wklej tutaj kod Pythona..."></textarea>
+    <div class="output">
+      <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
+      <h2>Wynik:</h2>
+      <pre id="output"></pre>
+      <h2>Błędy:</h2>
+      <pre id="error"></pre>
+      <h2>AI Feedback:</h2>
+      <pre id="ai"></pre>
+    </div>
+  </div>
 
   <script>
     async function analyzeCode() {
