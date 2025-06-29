@@ -65,4 +65,8 @@ Grupa projektowa **3J**:
 - Kajetan Szymczak (95522)
 - Mariusz Szmondrowski (96591)
 - Adrian Mikołajczyk (96192)
--Jan Kulinski 
+- Jan Kulinski (95402)
+
+
+##Link Do Strony 
+https://codebeautifer.onrender.com
