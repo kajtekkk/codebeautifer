@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Code Beautifier</title>
-<link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -36,25 +37,10 @@
       width: 100%;
       max-width: 1200px;
     }
-    textarea {
-  background-color: #1e1e1e;
-  color: #f1f1f1;
-  padding: 15px;
-  border: none;
-  border-radius: 8px;
-  width: 60%;
-  height: 500px;
-  font-family: 'Fira Code', 'Courier New', monospace;
-  font-size: 14px;
-  white-space: pre;
-  overflow: auto;
-  line-height: 1.5;
-  tab-size: 4;
-  resize: none;
-  caret-color: #ffffff;
-  outline: none;
-  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.1);
-}
+    #editor {
+      width: 60%;
+      height: 500px;
+      border-radius: 8px;
     }
     .output {
       width: 40%;
@@ -89,7 +75,7 @@
     <h1>Code Beautifier</h1>
   </header>
   <div class="container">
-    <textarea id="code" placeholder="# Wklej tutaj kod Pythona..."></textarea>
+    <div id="editor"></div>
     <div class="output">
       <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
       <h2>Wynik:</h2>
@@ -101,27 +87,21 @@
     </div>
   </div>
 
+  <!-- CodeMirror -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
   <script>
-
-
- const textarea = document.getElementById('code');
-
-  textarea.addEventListener('keydown', function(e) {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      const start = this.selectionStart;
-      const end = this.selectionEnd;
-
-      // Wstaw 4 spacje
-      const spaces = '    ';
-      this.value = this.value.substring(0, start) + spaces + this.value.substring(end);
-
-      // Przesuń kursor
-      this.selectionStart = this.selectionEnd = start + spaces.length;
-    }
+    const editor = CodeMirror(document.getElementById("editor"), {
+      mode: "python",
+      theme: "material-darker",
+      lineNumbers: true,
+      tabSize: 4,
+      indentUnit: 4,
+      value: "# Wklej tutaj swój kod Python"
+    });
 
     async function analyzeCode() {
-      const code = document.getElementById('code').value;
+      const code = editor.getValue();
       document.getElementById('output').textContent = 'Przetwarzanie...';
       document.getElementById('error').textContent = '';
       document.getElementById('ai').textContent = '';
