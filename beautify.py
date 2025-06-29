@@ -1,8 +1,12 @@
+#Importy i konfiguracja# 
+
 import os
 import shutil
 import subprocess
 from openai import OpenAI
 from dotenv import load_dotenv
+
+#Ładowanie  zmiennych środowiskowych i inicjalizacja OpenAI #
 
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
@@ -15,6 +19,7 @@ INPUT_FILE = "my_code.py"
 CLEAN_FILE = "my_code_clean.py"
 COMMENTED_FILE = "my_code_commented.py"
 
+#Formatowanie Kodu przy użyciu black #
 def run_black(input_file, output_file):
     shutil.copyfile(input_file, output_file)
     try:
