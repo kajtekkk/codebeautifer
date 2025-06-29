@@ -36,6 +36,7 @@ def analyze():
 
     ai_feedback = "(Brak odpowiedzi AI)"
     try:
+#Zapytanie do AI
         response = openai.ChatCompletion.create(
             model="gpt-4-turbo",
             messages=[{"role": "user", "content": prompt}],
@@ -45,6 +46,7 @@ def analyze():
     except Exception as e:
         ai_feedback = "Błąd AI: " + str(e)
 
+#Zwraca wynik w formacie JSON
     return jsonify({
         "stdout": result,
         "error": error_trace,
@@ -53,10 +55,12 @@ def analyze():
 
 from flask import send_from_directory
 
+#Serwerowanie Strony głownej
 @app.route("/")
 def index():
     return send_from_directory("static", "index.html")
 
+#Uruchomienie apki
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
