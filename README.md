@@ -1,5 +1,3 @@
-# codebeautifer
-Projekt zaliczeniowy grupa 3J 
 # CodeBeautifier – Asystent czytelności kodu z automatyczną aktualizacją Git
 
 ## Opis projektu
