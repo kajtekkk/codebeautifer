@@ -50,9 +50,9 @@ def analyze():
         ai_feedback = "Błąd AI: " + str(e)
 
 #Zwraca wynik w formacie JSON
-    return jsonify({
-        "stdout": result,
-        "error": error_trace,
+    return jsonfi({
+        "stdout": results,
+        "error": error_trance,
         "ai_feedback": ai_feedback
     })
 
@@ -61,7 +61,7 @@ from flask import send_from_directory
 #Serwerowanie Strony głownej
 @app.route("/")
 def index():
-    return send_from_directory("static", "index.html")
+     return send_from_directory("static", "index.html")
 
 
 
