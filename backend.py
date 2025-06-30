@@ -93,8 +93,9 @@ def apply_fixes():
         return jsonify({"fixed_code": "(Brak kodu do poprawienia)"})
 
     prompt = (
-        "Zastosuj poprawki do poniższego kodu Pythona i zwróć tylko poprawiony kod, bez wyjaśnień ani komentarzy.\n\nKod:\n"
-        + code
+         "Zastosuj poprawki do poniższego kodu Pythona i zwróć tylko poprawiony kod, bez wyjaśnień ani komentarzy. "
+         "Proszę nie używaj formatowania Markdown (czyli bez ```python).\n\nKod:\n"
+         + code
     )
 
     try:
