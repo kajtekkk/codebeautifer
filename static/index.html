@@ -145,15 +145,17 @@
   </header>
   <div class="container">
     <div id="editor"></div>
-    <div class="output">
-      <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
-      <h2>Wynik:</h2>
-      <pre id="output"></pre>
-      <h2>Błędy:</h2>
-      <pre id="error"></pre>
-      <h2>AI Feedback:</h2>
-      <pre id="ai"></pre>
-    </div>
+   <div class="output">
+  <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
+  <h2>Wynik:</h2>
+  <pre id="output"></pre>
+  <h2>Błędy:</h2>
+  <pre id="error"></pre>
+  <h2>AI Feedback:</h2>
+  <pre id="ai"></pre>
+  <button onclick="applyFixes()">Zastosuj poprawki AI</button>
+</div>
+
   </div>
 
 
@@ -220,6 +222,27 @@
       const data = await response.json();
       chatResp.textContent = data.response;
     }
+
+
+    async function applyFixes() {
+  const code = editor.getValue();
+  if (!code.trim()) return;
+
+  const button = event.target;
+  button.disabled = true;
+  button.textContent = "AI poprawia...";
+
+  const response = await fetch('/apply_fixes', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code })
+  });
+
+  const data = await response.json();
+  editor.setValue(data.fixed_code || "# Nie udało się zastosować poprawek");
+  button.disabled = false;
+  button.textContent = "Zastosuj poprawki AI";
+}
   </script>
 </body>
 </html>
