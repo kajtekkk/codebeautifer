@@ -1,60 +1,132 @@
-<!-- index.html -->
 <!DOCTYPE html>
+
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <title>Code Beautifier</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css">
-  <style>
-    /* ... (TWÓJ STYL CSS BEZ ZMIAN — PRZYCIĘTE DLA CZYTELNOŚCI) ... */
-  </style>
+<meta charset="utf-8"/>
+<title>Code Beautifier</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css" rel="stylesheet"/>
+<style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    header img {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .editor-column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    #editor {
+      flex: 1;
+      height: 600px;
+      min-height: 400px;
+    }
+    .CodeMirror {
+      height: 100%;
+      font-size: 14px;
+      border-radius: 8px;
+    }
+    .output {
+      width: 40%;
+    }
+    button {
+      background-color: #2979ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    h2 {
+      margin-top: 20px;
+      color: #90caf9;
+    }
+    pre {
+      background-color: #1c1c1c;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      margin-bottom: 15px;
+    }
+    form {
+      margin-top: 10px;
+    }
+  
+input[type="file"] {
+  background-color: #2979ff;
+  color: white;
+  padding: 8px;
+  border-radius: 6px;
+  border: none;
+  margin-top: 5px;
+  cursor: pointer;
+}
+input[type="file"]::-webkit-file-upload-button {
+  background-color: #2979ff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+</style>
 </head>
 <body>
-  <header>
-    <img src="/static/logo.png" alt="logo">
-  </header>
-  <div class="container">
-    <div style="flex: 1; display: flex; flex-direction: column;">
-      <div id="editor" style="flex: 1; min-height: 600px;"></div>
-
-      <!-- Formularz uploadu pliku .py -->
-      <form id="uploadForm" enctype="multipart/form-data" style="margin-top: 10px;">
-        <label for="file">lub prześlij plik .py:</label>
-        <input type="file" id="file" name="file" accept=".py">
-        <button type="submit" style="margin-top: 10px;">Załaduj plik</button>
-      </form>
-    </div>
-
-    <div class="output">
-      <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
-      <h2>Wynik:</h2>
-      <pre id="output"></pre>
-      <h2>Błędy:</h2>
-      <pre id="error"></pre>
-      <h2>AI Feedback:</h2>
-      <pre id="ai"></pre>
-      <button onclick="applyFixes()">Zastosuj poprawki AI</button>
-    </div>
-  </div>
-
-  <!-- Przełącznik motywu i chat box – bez zmian -->
-  <div class="theme-toggle">
-    <label class="switch">
-      <input type="checkbox" id="themeSwitch" onchange="toggleTheme()" />
-      <span class="slider"></span>
-    </label>
-  </div>
-  <button id="chat-button">💬</button>
-  <div id="chat-box">
-    <textarea id="chat-input" placeholder="Zadaj pytanie..."></textarea>
-    <button onclick="sendChat()">Wyślij</button>
-    <div id="chat-response"></div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
-  <script>
+<header>
+<img alt="logo" src="/static/logo.png"/>
+</header>
+<div class="container">
+<div class="editor-column">
+<div id="editor"></div>
+<form enctype="multipart/form-data" id="uploadForm">
+<label for="file">lub prześlij plik .py:</label><br/>
+<input accept=".py" id="file" name="file" type="file"/><br/>
+<button type="submit">Załaduj plik</button>
+</form>
+</div>
+<div class="output">
+<button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
+<h2>Wynik:</h2>
+<pre id="output"></pre>
+<h2>Błędy:</h2>
+<pre id="error"></pre>
+<h2>AI Feedback:</h2>
+<pre id="ai"></pre>
+<button onclick="applyFixes()">Zastosuj poprawki AI</button>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+<script>
     const editor = CodeMirror(document.getElementById("editor"), {
       mode: "python",
       theme: "material-darker",
@@ -82,7 +154,6 @@
       document.getElementById('ai').textContent = data.ai_feedback || '[brak informacji od AI]';
     }
 
-    // Upload pliku .py
     document.getElementById('uploadForm').addEventListener('submit', async function (e) {
       e.preventDefault();
       const fileInput = document.getElementById('file');
@@ -109,19 +180,6 @@
       }
     });
 
-    async function sendChat() {
-      const prompt = chatInput.value;
-      if (!prompt.trim()) return;
-      chatResp.textContent = '⏳ AI myśli...';
-      const response = await fetch('/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt })
-      });
-      const data = await response.json();
-      chatResp.textContent = data.response;
-    }
-
     async function applyFixes() {
       const code = editor.getValue();
       if (!code.trim()) return;
@@ -141,19 +199,6 @@
       button.disabled = false;
       button.textContent = "Zastosuj poprawki AI";
     }
-
-    function toggleTheme() {
-      const isDark = document.getElementById("themeSwitch").checked;
-      document.body.className = isDark ? "dark-mode" : "light-mode";
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    }
-
-    window.onload = () => {
-      const saved = localStorage.getItem("theme") || "dark";
-      const isDark = saved === "dark";
-      document.body.className = isDark ? "dark-mode" : "light-mode";
-      document.getElementById("themeSwitch").checked = isDark;
-    };
   </script>
 </body>
 </html>
