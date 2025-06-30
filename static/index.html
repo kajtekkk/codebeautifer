@@ -137,6 +137,83 @@
       overflow-y: auto;
       white-space: pre-wrap;
     }
+
+
+    /* MOTYWY JASNY/CIEMNY */
+body.light-mode {
+  background-color: #ffffff;
+  color: #222;
+}
+body.light-mode header img {
+  filter: none;
+}
+body.light-mode .output,
+body.light-mode pre,
+body.light-mode #chat-box {
+  background-color: #f0f0f0;
+  color: #222;
+}
+body.light-mode #chat-box textarea {
+  background: #e0e0e0;
+  color: #000;
+}
+body.light-mode h2 {
+  color: #003366;
+}
+body.light-mode button {
+  background-color: #2979ff;
+  color: white;
+}
+body.light-mode .CodeMirror {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* PRZEŁĄCZNIK MOTYWU */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+}
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: .4s;
+  border-radius: 24px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #2196F3;
+}
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
   </style>
 </head>
 <body>
