@@ -72,6 +72,68 @@
       white-space: pre-wrap;
       margin-bottom: 15px;
     }
+
+        /* CHAT STYLES */
+    #chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2979ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    #chat-box {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      background: #1e1e1e;
+      color: #f1f1f1;
+      border-radius: 10px;
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      z-index: 998;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+
+    #chat-box textarea {
+      width: 100%;
+      height: 60px;
+      resize: none;
+      margin-bottom: 10px;
+      background: #2a2a2a;
+      color: white;
+      border: none;
+      padding: 5px;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+
+    #chat-box button {
+      padding: 5px 10px;
+      background: #2979ff;
+      border: none;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    #chat-response {
+      font-size: 14px;
+      margin-top: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
   </style>
 </head>
 <body>
@@ -91,6 +153,16 @@
     </div>
   </div>
 
+
+  
+  <!-- CHAT UI -->
+  <button id="chat-button">💬</button>
+  <div id="chat-box">
+    <textarea id="chat-input" placeholder="Zadaj pytanie..."></textarea>
+    <button onclick="sendChat()">Wyślij</button>
+    <div id="chat-response"></div>
+  </div>
+  
   <!-- CodeMirror -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
@@ -120,6 +192,30 @@
       document.getElementById('output').textContent = data.stdout || '[brak wyjścia]';
       document.getElementById('error').textContent = data.error || '[brak błędów]';
       document.getElementById('ai').textContent = data.ai_feedback || '[brak informacji od AI]';
+    }
+
+
+     // CHAT
+    const chatBtn = document.getElementById('chat-button');
+    const chatBox = document.getElementById('chat-box');
+    const chatInput = document.getElementById('chat-input');
+    const chatResp = document.getElementById('chat-response');
+
+    chatBtn.onclick = () => {
+      chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+    };
+
+    async function sendChat() {
+      const prompt = chatInput.value;
+      if (!prompt.trim()) return;
+      chatResp.textContent = '⏳ AI myśli...';
+      const response = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await response.json();
+      chatResp.textContent = data.response;
     }
   </script>
 </body>
