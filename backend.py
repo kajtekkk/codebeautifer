@@ -29,11 +29,12 @@ def analyze():
         error_trace = str(e) + "\n" + traceback.format_exc()
 
     # Budujemy prompt z błędem (jeśli był)
-prompt = (
-    "Zastosuj poprawki do poniższego kodu Pythona i zwróć tylko poprawiony kod, bez wyjaśnień ani komentarzy. "
-    "Proszę nie używaj formatowania Markdown (czyli bez ```python)."
-    "\n\nKod:\n" + code
-)
+    prompt = (
+        "Przeanalizuj poniższy kod Pythona. Jeśli zawiera błędy (poniżej), wyjaśnij co jest nie tak i zaproponuj poprawki. "
+        "Proszę nie używaj formatowania Markdown (czyli bez ```python)."
+        "\n\nKod:\n" + code + ("\n\nBłąd:\n" + error_trace if error_trace else "")
+    )
+
 
 
     ai_feedback = "(Brak odpowiedzi AI)"
