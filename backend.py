@@ -60,6 +60,28 @@ from flask import send_from_directory
 def index():
     return send_from_directory("static", "index.html")
 
+
+
+
+#Chat
+@app.route("/chat", methods=["POST"])
+def chat():
+    prompt = request.json.get("prompt", "")
+    if not prompt.strip():
+        return jsonify({"response": "(Brak treści do analizy)"})
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.6,
+        )
+        answer = response.choices[0].message.content.strip()
+        return jsonify({"response": answer})
+    except Exception as e:
+        return jsonify({"response": f"Błąd AI: {str(e)}"})
+
+
 #Uruchomienie apki
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
