@@ -29,10 +29,12 @@ def analyze():
         error_trace = str(e) + "\n" + traceback.format_exc()
 
     # Budujemy prompt z błędem (jeśli był)
-    prompt = (
-        "Przeanalizuj poniższy kod Pythona. Jeśli zawiera błędy (poniżej), wyjaśnij co jest nie tak i zaproponuj poprawki."
-        "\n\nKod:\n" + code + ("\n\nBłąd:\n" + error_trace if error_trace else "")
-    )
+prompt = (
+    "Zastosuj poprawki do poniższego kodu Pythona i zwróć tylko poprawiony kod, bez wyjaśnień ani komentarzy. "
+    "Proszę nie używaj formatowania Markdown (czyli bez ```python)."
+    "\n\nKod:\n" + code
+)
+
 
     ai_feedback = "(Brak odpowiedzi AI)"
     try:
@@ -67,6 +69,7 @@ def index():
 @app.route("/chat", methods=["POST"])
 def chat():
     prompt = request.json.get("prompt", "")
+    prompt += "\n\nOdpowiedz proszę bez formatowania Markdown (bez ```), tylko sam tekst."
     if not prompt.strip():
         return jsonify({"response": "(Brak treści do analizy)"})
 
