@@ -81,6 +81,29 @@ def chat():
     except Exception as e:
         return jsonify({"response": f"Błąd AI: {str(e)}"})
 
+#Zmiany
+@app.route("/apply_fixes", methods=["POST"])
+def apply_fixes():
+    code = request.json.get("code", "")
+    if not code.strip():
+        return jsonify({"fixed_code": "(Brak kodu do poprawienia)"})
+
+    prompt = (
+        "Zastosuj poprawki do poniższego kodu Pythona i zwróć tylko poprawiony kod, bez wyjaśnień ani komentarzy.\n\nKod:\n"
+        + code
+    )
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+        )
+        fixed_code = response.choices[0].message.content.strip()
+        return jsonify({"fixed_code": fixed_code})
+    except Exception as e:
+        return jsonify({"fixed_code": f"Błąd AI: {str(e)}"})
+
 
 #Uruchomienie apki
 if __name__ == "__main__":
