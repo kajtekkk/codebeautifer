@@ -72,8 +72,6 @@
       white-space: pre-wrap;
       margin-bottom: 15px;
     }
-
-        /* CHAT STYLES */
     #chat-button {
       position: fixed;
       bottom: 20px;
@@ -91,7 +89,6 @@
       align-items: center;
       justify-content: center;
     }
-
     #chat-box {
       position: fixed;
       bottom: 80px;
@@ -106,7 +103,6 @@
       z-index: 998;
       box-shadow: 0 0 10px rgba(0,0,0,0.5);
     }
-
     #chat-box textarea {
       width: 100%;
       height: 60px;
@@ -119,7 +115,6 @@
       border-radius: 5px;
       font-family: monospace;
     }
-
     #chat-box button {
       padding: 5px 10px;
       background: #2979ff;
@@ -129,7 +124,6 @@
       cursor: pointer;
       font-size: 14px;
     }
-
     #chat-response {
       font-size: 14px;
       margin-top: 10px;
@@ -137,83 +131,77 @@
       overflow-y: auto;
       white-space: pre-wrap;
     }
-
-
-    /* MOTYWY JASNY/CIEMNY */
-body.light-mode {
-  background-color: #ffffff;
-  color: #222;
-}
-body.light-mode header img {
-  filter: none;
-}
-body.light-mode .output,
-body.light-mode pre,
-body.light-mode #chat-box {
-  background-color: #f0f0f0;
-  color: #222;
-}
-body.light-mode #chat-box textarea {
-  background: #e0e0e0;
-  color: #000;
-}
-body.light-mode h2 {
-  color: #003366;
-}
-body.light-mode button {
-  background-color: #2979ff;
-  color: white;
-}
-body.light-mode .CodeMirror {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-/* PRZEŁĄCZNIK MOTYWU */
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 1000;
-}
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 24px;
-}
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
-  background-color: #ccc;
-  transition: .4s;
-  border-radius: 24px;
-}
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 18px;
-  width: 18px;
-  left: 3px;
-  bottom: 3px;
-  background-color: white;
-  transition: .4s;
-  border-radius: 50%;
-}
-input:checked + .slider {
-  background-color: #2196F3;
-}
-input:checked + .slider:before {
-  transform: translateX(26px);
-}
-
+    body.light-mode {
+      background-color: #ffffff;
+      color: #222;
+    }
+    body.light-mode header img {
+      filter: none;
+    }
+    body.light-mode .output,
+    body.light-mode pre,
+    body.light-mode #chat-box {
+      background-color: #f0f0f0;
+      color: #222;
+    }
+    body.light-mode #chat-box textarea {
+      background: #e0e0e0;
+      color: #000;
+    }
+    body.light-mode h2 {
+      color: #003366;
+    }
+    body.light-mode button {
+      background-color: #2979ff;
+      color: white;
+    }
+    body.light-mode .CodeMirror {
+      background-color: #ffffff;
+      color: #000000;
+    }
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
   </style>
 </head>
 <body>
@@ -222,36 +210,29 @@ input:checked + .slider:before {
   </header>
   <div class="container">
     <div id="editor"></div>
-   <div class="output">
-  <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
-  <h2>Wynik:</h2>
-  <pre id="output"></pre>
-  <h2>Błędy:</h2>
-  <pre id="error"></pre>
-  <h2>AI Feedback:</h2>
-  <pre id="ai"></pre>
-  <button onclick="applyFixes()">Zastosuj poprawki AI</button>
-</div>
-
+    <div class="output">
+      <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
+      <h2>Wynik:</h2>
+      <pre id="output"></pre>
+      <h2>Błędy:</h2>
+      <pre id="error"></pre>
+      <h2>AI Feedback:</h2>
+      <pre id="ai"></pre>
+      <button onclick="applyFixes()">Zastosuj poprawki AI</button>
+    </div>
   </div>
-
-<div class="theme-toggle">
-  <label class="switch">
-    <input type="checkbox" id="themeSwitch" onchange="toggleTheme()" />
-    <span class="slider"></span>
-  </label>
-</div>
-
-  
-  <!-- CHAT UI -->
+  <div class="theme-toggle">
+    <label class="switch">
+      <input type="checkbox" id="themeSwitch" onchange="toggleTheme()" />
+      <span class="slider"></span>
+    </label>
+  </div>
   <button id="chat-button">💬</button>
   <div id="chat-box">
     <textarea id="chat-input" placeholder="Zadaj pytanie..."></textarea>
     <button onclick="sendChat()">Wyślij</button>
     <div id="chat-response"></div>
   </div>
-  
-  <!-- CodeMirror -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
   <script>
@@ -282,8 +263,6 @@ input:checked + .slider:before {
       document.getElementById('ai').textContent = data.ai_feedback || '[brak informacji od AI]';
     }
 
-
-     // CHAT
     const chatBtn = document.getElementById('chat-button');
     const chatBox = document.getElementById('chat-box');
     const chatInput = document.getElementById('chat-input');
@@ -306,41 +285,38 @@ input:checked + .slider:before {
       chatResp.textContent = data.response;
     }
 
-
     async function applyFixes() {
-  const code = editor.getValue();
-  if (!code.trim()) return;
+      const code = editor.getValue();
+      if (!code.trim()) return;
 
-  const button = event.target;
-  button.disabled = true;
-  button.textContent = "AI poprawia...";
+      const button = event.target;
+      button.disabled = true;
+      button.textContent = "AI poprawia...";
 
-  const response = await fetch('/apply_fixes', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ code })
-  });
+      const response = await fetch('/apply_fixes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ code })
+      });
 
-  const data = await response.json();
-  editor.setValue(data.fixed_code || "# Nie udało się zastosować poprawek");
-  button.disabled = false;
-  button.textContent = "Zastosuj poprawki AI";
-}
-
+      const data = await response.json();
+      editor.setValue(data.fixed_code || "# Nie udało się zastosować poprawek");
+      button.disabled = false;
+      button.textContent = "Zastosuj poprawki AI";
+    }
 
     function toggleTheme() {
-  const isDark = document.getElementById("themeSwitch").checked;
-  document.body.className = isDark ? "dark-mode" : "light-mode";
-  localStorage.setItem("theme", isDark ? "dark" : "light");
-}
+      const isDark = document.getElementById("themeSwitch").checked;
+      document.body.className = isDark ? "dark-mode" : "light-mode";
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
 
-window.onload = () => {
-  const saved = localStorage.getItem("theme") || "dark";
-  const isDark = saved === "dark";
-  document.body.className = isDark ? "dark-mode" : "light-mode";
-  document.getElementById("themeSwitch").checked = isDark;
-};
-
+    window.onload = () => {
+      const saved = localStorage.getItem("theme") || "dark";
+      const isDark = saved === "dark";
+      document.body.className = isDark ? "dark-mode" : "light-mode";
+      document.getElementById("themeSwitch").checked = isDark;
+    };
   </script>
 </body>
 </html>
