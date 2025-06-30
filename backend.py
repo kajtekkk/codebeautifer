@@ -50,7 +50,7 @@ def analyze():
         ai_feedback = "Błąd AI: " + str(e)
 
 #Zwraca wynik w formacie JSON
-    return jsonfi({
+    return jsonify({
         "stdout": results,
         "error": error_trance,
         "ai_feedback": ai_feedback
