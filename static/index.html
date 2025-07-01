@@ -335,6 +335,9 @@
         const chatHistoryDiv = document.getElementById('chat-history');
         
         chatBtn.onclick = () => {
+        if (!chatHistoryDiv.hasChildNodes()) {
+          appendMessage('AI', 'Cześć! Jak mogę Ci pomóc?', 'chat-ai');
+        }
           chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
         };
         
