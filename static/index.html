@@ -53,7 +53,10 @@
           border-radius: 8px;
         }
         .output {
-          width: 40%;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
         button {
           background-color: #2979ff;
@@ -117,19 +120,21 @@
         </div>
 
         <div class="output">
+          <div style="display: flex; gap: 10px; margin-bottom: 20px;">
             <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
-
-            <h2>Wynik:</h2>
-            <pre id="output"></pre>
-
-            <h2>Błędy:</h2>
-            <pre id="error"></pre>
-
-            <h2>AI Feedback:</h2>
-            <pre id="ai"></pre>
-
             <button onclick="applyFixes()">Zastosuj poprawki AI</button>
+          </div>
+        
+          <h2>Wynik:</h2>
+          <pre id="output"></pre>
+        
+          <h2>Błędy:</h2>
+          <pre id="error"></pre>
+        
+          <h2>AI Feedback:</h2>
+          <pre id="ai"></pre>
         </div>
+
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
