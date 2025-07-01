@@ -2,203 +2,211 @@
 
 <html lang="pl">
 <head>
-<meta charset="utf-8"/>
-<title>Code Beautifier</title>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css" rel="stylesheet"/>
-<style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      background-color: #121212;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-      min-height: 100vh;
-    }
-    header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-      width: 100%;
-    }
-    header img {
-      max-width: 300px;
-      width: 100%;
-      height: auto;
-    }
-    .container {
-      display: flex;
-      gap: 20px;
-      width: 100%;
-      max-width: 1200px;
-    }
-    .editor-column {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-    }
-    #editor {
-      flex: 1;
-      height: 600px;
-      min-height: 400px;
-    }
-    .CodeMirror {
-      height: 100%;
-      font-size: 14px;
-      border-radius: 8px;
-    }
-    .output {
-      width: 40%;
-    }
-    button {
-      background-color: #2979ff;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      padding: 10px 20px;
-      font-size: 16px;
-      margin: 10px 0;
-      cursor: pointer;
-    }
-    h2 {
-      margin-top: 20px;
-      color: #90caf9;
-    }
-    pre {
-      background-color: #1c1c1c;
-      padding: 10px;
-      border-radius: 5px;
-      overflow-x: auto;
-      white-space: pre-wrap;
-      margin-bottom: 15px;
-    }
-    form {
-      margin-top: 10px;
-    }
-  
-input[type="file"] {
-  background-color: #2979ff;
-  color: white;
-  padding: 8px;
-  border-radius: 6px;
-  border: none;
-  margin-top: 5px;
-  cursor: pointer;
-}
-input[type="file"]::-webkit-file-upload-button {
-  background-color: #2979ff;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-</style>
+    <meta charset="utf-8"/>
+    <title>Code Beautifier</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css" rel="stylesheet"/>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+          background-color: #121212;
+          color: #e0e0e0;
+          font-family: 'Segoe UI', sans-serif;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 20px;
+          min-height: 100vh;
+        }
+        header {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          margin-bottom: 20px;
+          width: 100%;
+        }
+        header img {
+          max-width: 300px;
+          width: 100%;
+          height: auto;
+        }
+        .container {
+          display: flex;
+          gap: 20px;
+          width: 100%;
+          max-width: 1200px;
+        }
+        .editor-column {
+          display: flex;
+          flex-direction: column;
+          flex: 1;
+        }
+        #editor {
+          flex: 1;
+          height: 600px;
+          min-height: 400px;
+        }
+        .CodeMirror {
+          height: 100%;
+          font-size: 14px;
+          border-radius: 8px;
+        }
+        .output {
+          width: 40%;
+        }
+        button {
+          background-color: #2979ff;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 10px 20px;
+          font-size: 16px;
+          margin: 10px 0;
+          cursor: pointer;
+        }
+        h2 {
+          margin-top: 20px;
+          color: #90caf9;
+        }
+        pre {
+          background-color: #1c1c1c;
+          padding: 10px;
+          border-radius: 5px;
+          overflow-x: auto;
+          white-space: pre-wrap;
+          margin-bottom: 15px;
+        }
+        form {
+          margin-top: 10px;
+        }
+
+        input[type="file"] {
+          background-color: #2979ff;
+          color: white;
+          padding: 8px;
+          border-radius: 6px;
+          border: none;
+          margin-top: 5px;
+          cursor: pointer;
+        }
+        input[type="file"]::-webkit-file-upload-button {
+          background-color: #2979ff;
+          color: white;
+          border: none;
+          border-radius: 6px;
+          padding: 8px 12px;
+          cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<header>
-<img alt="logo" src="/static/logo.png"/>
-</header>
-<div class="container">
-<div class="editor-column">
-<div id="editor"></div>
-<form enctype="multipart/form-data" id="uploadForm">
-<label for="file">lub prześlij plik .py:</label><br/>
-<input accept=".py" id="file" name="file" type="file"/><br/>
-<button type="submit">Załaduj plik</button>
-</form>
-</div>
-<div class="output">
-<button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
-<h2>Wynik:</h2>
-<pre id="output"></pre>
-<h2>Błędy:</h2>
-<pre id="error"></pre>
-<h2>AI Feedback:</h2>
-<pre id="ai"></pre>
-<button onclick="applyFixes()">Zastosuj poprawki AI</button>
-</div>
-</div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
-<script>
-    const editor = CodeMirror(document.getElementById("editor"), {
-      mode: "python",
-      theme: "material-darker",
-      lineNumbers: true,
-      tabSize: 4,
-      indentUnit: 4,
-      value: ""
-    });
+    <header>
+        <img alt="logo" src="/static/logo.png"/>
+    </header>
 
-    async function analyzeCode() {
-      const code = editor.getValue();
-      document.getElementById('output').textContent = 'Przetwarzanie...';
-      document.getElementById('error').textContent = '';
-      document.getElementById('ai').textContent = '';
+    <div class="container">
+        <div class="editor-column">
+            <div id="editor"></div>
 
-      const response = await fetch('/analyze', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code })
-      });
+            <form enctype="multipart/form-data" id="uploadForm">
+                <label for="file">lub prześlij plik .py:</label><br/>
+                <input accept=".py" id="file" name="file" type="file"/><br/>
+                <button type="submit">Załaduj plik</button>
+            </form>
+        </div>
 
-      const data = await response.json();
-      document.getElementById('output').textContent = data.stdout || '[brak wyjścia]';
-      document.getElementById('error').textContent = data.error || '[brak błędów]';
-      document.getElementById('ai').textContent = data.ai_feedback || '[brak informacji od AI]';
-    }
+        <div class="output">
+            <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
 
-    document.getElementById('uploadForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
-      const fileInput = document.getElementById('file');
-      const file = fileInput.files[0];
+            <h2>Wynik:</h2>
+            <pre id="output"></pre>
 
-      if (!file || !file.name.endsWith('.py')) {
-        alert('Proszę wybrać plik .py');
-        return;
-      }
+            <h2>Błędy:</h2>
+            <pre id="error"></pre>
 
-      const formData = new FormData();
-      formData.append('file', file);
+            <h2>AI Feedback:</h2>
+            <pre id="ai"></pre>
 
-      const response = await fetch('/upload', {
-        method: 'POST',
-        body: formData
-      });
+            <button onclick="applyFixes()">Zastosuj poprawki AI</button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+    <script>
+        const editor = CodeMirror(document.getElementById("editor"), {
+          mode: "python",
+          theme: "material-darker",
+          lineNumbers: true,
+          tabSize: 4,
+          indentUnit: 4,
+          value: ""
+        });
 
-      const data = await response.json();
-      if (data.code) {
-        editor.setValue(data.code);
-      } else {
-        alert('Nie udało się załadować pliku.');
-      }
-    });
+        async function analyzeCode() {
+          const code = editor.getValue();
+          document.getElementById('output').textContent = 'Przetwarzanie...';
+          document.getElementById('error').textContent = '';
+          document.getElementById('ai').textContent = '';
 
-    async function applyFixes() {
-      const code = editor.getValue();
-      if (!code.trim()) return;
+          const response = await fetch('/analyze', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code })
+          });
 
-      const button = event.target;
-      button.disabled = true;
-      button.textContent = "AI poprawia...";
+          const data = await response.json();
+          document.getElementById('output').textContent = data.stdout || '[brak wyjścia]';
+          document.getElementById('error').textContent = data.error || '[brak błędów]';
+          document.getElementById('ai').textContent = data.ai_feedback || '[brak informacji od AI]';
+        }
 
-      const response = await fetch('/apply_fixes', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code })
-      });
+        document.getElementById('uploadForm').addEventListener('submit', async function (e) {
+          e.preventDefault();
+          const fileInput = document.getElementById('file');
+          const file = fileInput.files[0];
 
-      const data = await response.json();
-      editor.setValue(data.fixed_code || "# Nie udało się zastosować poprawek");
-      button.disabled = false;
-      button.textContent = "Zastosuj poprawki AI";
-    }
-  </script>
+          if (!file || !file.name.endsWith('.py')) {
+            alert('Proszę wybrać plik .py');
+            return;
+          }
+
+          const formData = new FormData();
+          formData.append('file', file);
+
+          const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+          });
+
+          const data = await response.json();
+          if (data.code) {
+            editor.setValue(data.code);
+          } else {
+            alert('Nie udało się załadować pliku.');
+          }
+        });
+
+        async function applyFixes() {
+          const code = editor.getValue();
+          if (!code.trim()) return;
+
+          const button = event.target;
+          button.disabled = true;
+          button.textContent = "AI poprawia...";
+
+          const response = await fetch('/apply_fixes', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code })
+          });
+
+          const data = await response.json();
+          editor.setValue(data.fixed_code || "# Nie udało się zastosować poprawek");
+
+          button.disabled = false;
+          button.textContent = "Zastosuj poprawki AI";
+        }
+    </script>
 </body>
 </html>
