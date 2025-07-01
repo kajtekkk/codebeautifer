@@ -329,6 +329,41 @@
           button.disabled = false;
           button.textContent = "Zastosuj poprawki AI";
         }
+        const chatBtn = document.getElementById('chat-button');
+        const chatBox = document.getElementById('chat-box');
+        const chatInput = document.getElementById('chat-input');
+        const chatHistoryDiv = document.getElementById('chat-history');
+        
+        chatBtn.onclick = () => {
+          chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
+        };
+        
+        function appendMessage(sender, text, cssClass) {
+          const div = document.createElement('div');
+          div.className = 'chat-message';
+          div.innerHTML = `<span class="${cssClass}">${sender}:</span> ${text}`;
+          chatHistoryDiv.appendChild(div);
+          chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+        }
+        
+        async function sendChat() {
+          const prompt = chatInput.value;
+          if (!prompt.trim()) return;
+        
+          appendMessage('Ty', prompt, 'chat-user');
+          chatInput.value = '';
+        
+          const response = await fetch('/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+          });
+        
+          const data = await response.json();
+          appendMessage('AI', data.response, 'chat-ai');
+        }
+
+        
     </script>
 </body>
 </html>
