@@ -133,15 +133,49 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/display/placeholder.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
     <script>
         const editor = CodeMirror(document.getElementById("editor"), {
-          mode: "python",
-          theme: "material-darker",
-          lineNumbers: true,
-          tabSize: 4,
-          indentUnit: 4,
-          value: ""
+            mode: "python",
+            theme: "material-darker",
+            lineNumbers: true,
+            tabSize: 4,
+            indentUnit: 4,
+            value: "" // zaczynamy pustym edytorem
         });
+
+        const placeholderCode = 'print("Hello, Python!")';
+        let typingTimeout;
+        let hasUserInteracted = false;
+
+        function typeCode(text, index = 0) {
+            if (hasUserInteracted) return;
+
+            if (index === 0) editor.setValue(""); // zacznij od pustego
+
+            if (index < text.length) {
+            editor.setValue(text.slice(0, index + 1));
+            typingTimeout = setTimeout(() => typeCode(text, index + 1), 80);
+            }
+        }
+
+        // Animacja tylko jeśli edytor jest pusty
+        if (!editor.getValue().trim()) {
+            editor.setOption("readOnly", true);
+            typeCode(placeholderCode);
+
+            editor.on("focus", () => {
+            if (!hasUserInteracted) {
+                hasUserInteracted = true;
+                clearTimeout(typingTimeout);
+                editor.setOption("readOnly", false);
+                editor.setValue(""); // usuń kod po kliknięciu
+            }
+            });
+        }
 
         async function analyzeCode() {
           const code = editor.getValue();
