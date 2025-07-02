@@ -1,9 +1,11 @@
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, send_file
 import subprocess
 import openai
 import os
 import traceback
 from dotenv import load_dotenv
+from io import BytesIO
+from datetime import datetime
 
 # Ładowanie API
 load_dotenv()
@@ -43,11 +45,36 @@ def analyze():
     except Exception as e:
         ai_feedback = "Błąd AI: " + str(e)
 
-    return jsonify({
+    # Zapis danych do tymczasowej sesji (można potem zapisać do pliku)
+    global LAST_ANALYSIS
+    LAST_ANALYSIS = {
+        "code": code,
         "stdout": result,
         "error": error_trace,
         "ai_feedback": ai_feedback
-    })
+    }
+
+    return jsonify(LAST_ANALYSIS)
+
+# POBIERZ RAPORT
+@app.route("/download_report", methods=["GET"])
+def download_report():
+    if not LAST_ANALYSIS:
+        return "Brak danych do pobrania", 400
+
+    report = (
+        f"Raport analizy kodu - {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
+        "\n--- KOD ---\n" + LAST_ANALYSIS["code"] +
+        "\n\n--- WYNIK ---\n" + (LAST_ANALYSIS["stdout"] or "[brak wyjścia]") +
+        "\n\n--- BŁĘDY ---\n" + (LAST_ANALYSIS["error"] or "[brak błędów]") +
+        "\n\n--- FEEDBACK AI ---\n" + (LAST_ANALYSIS["ai_feedback"] or "[brak informacji]")
+    )
+
+    file_stream = BytesIO()
+    file_stream.write(report.encode("utf-8"))
+    file_stream.seek(0)
+
+    return send_file(file_stream, as_attachment=True, download_name="raport.txt", mimetype="text/plain")
 
 # WYSYŁANIE STRONY GŁÓWNEJ
 @app.route("/")
@@ -105,8 +132,10 @@ def upload_file():
         return jsonify({"code": code})
     return jsonify({"error": "Nieprawidłowy plik"}), 400
 
+# Tymczasowy storage wyników analizy
+LAST_ANALYSIS = {}
+
 # START
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
-
