@@ -46,7 +46,7 @@ def analyze():
         ai_feedback = "Błąd AI: " + str(e)
 
     # Zapis danych do tymczasowej sesji (można potem zapisać do pliku)
-    global LAST_ANALYSIS
+     global LAST_ANALYSIS
     LAST_ANALYSIS = {
         "code": code,
         "stdout": result,
@@ -108,7 +108,7 @@ def apply_fixes():
         return jsonify({"fixed_code": "(Brak kodu do poprawienia)"})
 
     prompt = (
-        "Zastosuj poprawki do poniższego kodu Pythona i zwróć tylko poprawiony kod, bez wyjaśnień ani komentarzy. "
+        "Nanieś poprawki do przedstawionego poniżej kodu, zwróć tylko poprawiony kod bez komentarzy ani wyjaśnień."
         "Proszę nie używaj formatowania Markdown (czyli bez ```python).\n\nKod:\n" + code
     )
 
