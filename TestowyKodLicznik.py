@@ -13,3 +13,10 @@ def count_file_stats(filename):
     num_words = sum(len(line.split()) for line in lines)
     num_chars = sum(len(line) for line in lines)
 
+def main():
+    print("=== Licznik statystyk pliku ===")
+    filename = input("Podaj nazwę pliku .txt: ")
+    count_file_stats(filename)
+
+if __name__ == "__main__":
+    main()
