@@ -8,3 +8,8 @@ def count_file_stats(filename):
     except Exception as e:
         print(f"Wystąpił błąd: {e}")
         return
+    
+    num_lines = len(lines)
+    num_words = sum(len(line.split()) for line in lines)
+    num_chars = sum(len(line) for line in lines)
+
