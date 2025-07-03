@@ -160,4 +160,64 @@
       z-index: 999;
       display: flex;
       align-items: center;
-      justify-co
+      justify-content: center;
+    }
+
+    /* Nowy styl przycisków w jednej linii */
+    .button-row {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Code Beautifier</h1>
+  </header>
+
+  <div class="container">
+    <div class="editor-column">
+      <div id="editor"></div>
+
+      <!-- Nowe przyciski obok siebie -->
+      <div class="button-row">
+        <button id="apply-ai">Zastosuj poprawki AI</button>
+        <button id="download-report">Pobierz Raport</button>
+      </div>
+    </div>
+
+    <div class="output">
+      <h2>Wynik</h2>
+      <pre id="output-box">Tutaj pojawi się wynik...</pre>
+    </div>
+  </div>
+
+  <button id="chat-button">💬</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+  <script>
+    const editor = CodeMirror(document.getElementById('editor'), {
+      mode: "javascript",
+      theme: "material-darker",
+      lineNumbers: true
+    });
+
+    document.getElementById('apply-ai').addEventListener('click', () => {
+      const content = editor.getValue();
+      const improved = content.toUpperCase(); // Przykład "poprawki"
+      document.getElementById('output-box').textContent = improved;
+    });
+
+    document.getElementById('download-report').addEventListener('click', () => {
+      const content = document.getElementById('output-box').textContent;
+      const blob = new Blob([content], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'raport.txt';
+      link.click();
+    });
+  </script>
+</body>
+</html>
