@@ -1,458 +1,163 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="utf-8"/>
-    <title>Code Beautifier</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" rel="stylesheet"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css" rel="stylesheet"/>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-          background-color: #121212;
-          color: #e0e0e0;
-          font-family: 'Segoe UI', sans-serif;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 20px;
-          min-height: 100vh;
-        }
+  <meta charset="utf-8"/>
+  <title>Code Beautifier</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/material-darker.min.css" rel="stylesheet"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      min-height: 100vh;
+    }
 
-        /*   LIGHT-THEME   */
+    body.light-theme {
+      background-color: #f5f5f5;
+      color: #121212;
+    }
+    body.light-theme .CodeMirror {
+      background-color: #ffffff !important;
+      color: #000 !important;
+    }
+    body.light-theme pre {
+      background-color: #D6D6D6;
+      color: #111;
+    }
+    body.light-theme h2 {
+      color: black;
+    }
+    body.light-theme input[type="file"],
+    body.light-theme input[type="file"]::-webkit-file-upload-button {
+      background-color: #fff;
+      color: #000;
+    }
+    body.light-theme #chat-box {
+      background-color: #fff;
+      color: #000;
+    }
+    body.light-theme textarea {
+      background-color: #f0f0f0;
+      color: #000;
+    }
+    body.light-theme button {
+      background-color: #1976d2;
+      color: #fff;
+      transition: background-color 0.3s ease;
+    }
 
-        
-        body.light-theme {
-          background-color: #f5f5f5;
-          color: #121212;
-        }
-        body.light-theme .CodeMirror {
-          background-color: #ffffff !important;
-          color: #000 !important;
-        }
-        body.light-theme pre {
-          background-color: #D6D6D6;
-          color: #111;
-        }
-        body.light-theme h2{
-          color: black;
-        }
-        body.light-theme input[type="file"],
-        body.light-theme input[type="file"]::-webkit-file-upload-button {
-          background-color: #fff;
-          color: #000;
-        }
-        body.light-theme #chat-box {
-          background-color: #fff;
-          color: #000;
-        }
-        body.light-theme textarea {
-          background-color: #f0f0f0;
-          color: #000;
-        }
-        body.light-theme button {
-          background-color: #1976d2;
-          color: #fff;
-          transition: background-color 0.3s ease;
-        }
+    body.light-theme button:hover {
+      background-color: blue;
+      color: white;
+    }
 
-        body.light-theme button:hover {
-            background-color: blue;
-            color: white;
-        }
+    header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    header img {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+    }
+    .container {
+      display: flex;
+      gap: 20px;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .editor-column {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    #editor {
+      flex: 1;
+      height: 600px;
+      min-height: 400px;
+    }
+    .CodeMirror {
+      height: 100%;
+      font-size: 14px;
+      border-radius: 8px;
+    }
+    .output {
+      width: 40%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    button {
+      background-color: #2979ff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: blue;
+      color: white;
+    }
+    h2 {
+      margin-top: 20px;
+      color: #90caf9;
+    }
+    pre {
+      background-color: #1c1c1c;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      margin-bottom: 15px;
+    }
+    form {
+      margin-top: 10px;
+    }
 
-        
-        /*   DARK-THEME   */
-
-        
-        header {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          margin-bottom: 20px;
-          width: 100%;
-        }
-        header img {
-          max-width: 300px;
-          width: 100%;
-          height: auto;
-        }
-        .container {
-          display: flex;
-          gap: 20px;
-          width: 100%;
-          max-width: 1200px;
-        }
-        .editor-column {
-          display: flex;
-          flex-direction: column;
-          flex: 1;
-        }
-        #editor {
-          flex: 1;
-          height: 600px;
-          min-height: 400px;
-        }
-        .CodeMirror {
-          height: 100%;
-          font-size: 14px;
-          border-radius: 8px;
-        }
-        .output {
-            width: 40%;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        button {
-          background-color: #2979ff;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          padding: 10px 20px;
-          font-size: 16px;
-          margin: 10px 0;
-          cursor: pointer;
-          transition: background-color 0.3s ease;
-        }
-        button:hover {
-          background-color: blue;
-          color: white;
-        }
-        h2 {
-          margin-top: 20px;
-          color: #90caf9;
-        }
-        pre {
-          background-color: #1c1c1c;
-          padding: 10px;
-          border-radius: 5px;
-          overflow-x: auto;
-          white-space: pre-wrap;
-          margin-bottom: 15px;
-        }
-        form {
-          margin-top: 10px;
-        }
-
-        input[type="file"] {
-          background-color: #1c1c1c;
-          color: white;
-          padding: 8px;
-          border-radius: 6px;
-          border: 1px dashed #888;
-          margin-top: 5px;
-          cursor: pointer;
-        }
-        input[type="file"]::-webkit-file-upload-button {
-          background-color: #1c1c1c;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          padding: 8px 12px;
-          cursor: pointer;
-        }
-        #chat-button {
-          position: fixed;
-          bottom: 20px;
-          right: 20px;
-          background: #2979ff;
-          color: white;
-          border: none;
-          border-radius: 50%;
-          width: 50px;
-          height: 50px;
-          font-size: 24px;
-          cursor: pointer;
-          z-index: 999;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        #chat-box {
-          position: fixed;
-          bottom: 80px;
-          right: 20px;
-          width: 320px;
-          background: #1e1e1e;
-          color: #f1f1f1;
-          border-radius: 10px;
-          padding: 10px;
-          display: none;
-          flex-direction: column;
-          z-index: 998;
-          box-shadow: 0 0 10px rgba(0,0,0,0.5);
-        }
-
-        #chat-history {
-          max-height: 200px;
-          overflow-y: auto;
-          margin-bottom: 10px;
-          font-size: 13px;
-          white-space: pre-wrap;
-        }
-
-        #chat-box textarea {
-          width: 100%;
-          height: 60px;
-          resize: none;
-          margin-bottom: 10px;
-          background: #2a2a2a;
-          color: white;
-          border: none;
-          padding: 5px;
-          border-radius: 5px;
-          font-family: monospace;
-        }
-
-        #chat-box button {
-          padding: 5px 10px;
-          background: #2979ff;
-          border: none;
-          border-radius: 5px;
-          color: white;
-          cursor: pointer;
-          font-size: 14px;
-        }
-
-        .chat-message {
-          margin-bottom: 6px;
-        }
-        .chat-user {
-          font-weight: bold;
-          color: #90caf9;
-        }
-        .chat-ai {
-          font-weight: bold;
-          color: #f48fb1;
-        }
-
-        #toggle-theme {
-          position: fixed;
-          top: 10px;
-          left: 10px;
-          z-index: 1000;
-        }
-
-        #download-report {
-          position: fixed;
-          bottom: 140px;
-          right: 20px;
-          z-index: 1000;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <img alt="logo" src="/static/logo.png"/>
-    </header>
-
-    <!-- Przycisk zmiany motywu -->
-    <button id="toggle-theme">🌙/☀️</button>
-    <!-- Przycisk pobierania raportu -->
-    <button id="download-report">📥 Pobierz raport</button>
-
-    <div class="container">
-        <div class="editor-column">
-            <div id="editor"></div>
-
-            <form enctype="multipart/form-data" id="uploadForm">
-                <input accept=".py" id="file" name="file" type="file"/><br/>
-                <button type="submit">Załaduj plik .py</button>
-            </form>
-        </div>
-
-        <div class="output">
-          <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-            <button onclick="analyzeCode()">Uruchom i Przeanalizuj</button>
-            <button onclick="applyFixes()">Zastosuj poprawki AI</button>
-          </div>
-
-          <h2>Wynik:</h2>
-          <pre id="output"></pre>
-
-          <h2>Błędy:</h2>
-          <pre id="error"></pre>
-
-          <h2>AI Feedback:</h2>
-          <pre id="ai"></pre>
-        </div>
-
-        <!-- CHAT UI -->
-        <button id="chat-button">💬</button>
-        <div id="chat-box">
-          <div id="chat-history"></div>
-          <textarea id="chat-input" placeholder="Zadaj pytanie..."></textarea>
-          <button onclick="sendChat()">Wyślij</button>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/python/python.min.js"></script>
-    <script>
-        const editor = CodeMirror(document.getElementById("editor"), {
-            mode: "python",
-            theme: "material-darker",
-            lineNumbers: true,
-            tabSize: 4,
-            indentUnit: 4,
-            value: ""
-        });
-
-        const placeholderCode = 'print("Hello, Python!")';
-        let typingTimeout;
-        let hasUserInteracted = false;
-
-        function typeCode(text, index = 0) {
-            if (hasUserInteracted) return;
-
-            if (index === 0) editor.setValue("");
-
-            if (index < text.length) {
-                editor.setValue(text.slice(0, index + 1));
-                typingTimeout = setTimeout(() => typeCode(text, index + 1), 80);
-            }
-        }
-
-        if (!editor.getValue().trim()) {
-            editor.setOption("readOnly", true);
-            typeCode(placeholderCode);
-
-            editor.on("focus", () => {
-                if (!hasUserInteracted) {
-                    hasUserInteracted = true;
-                    clearTimeout(typingTimeout);
-                    editor.setOption("readOnly", false);
-                    editor.setValue("");
-                }
-            });
-        }
-
-        async function analyzeCode() {
-            const code = editor.getValue();
-            document.getElementById('output').textContent = 'Przetwarzanie...';
-            document.getElementById('error').textContent = '';
-            document.getElementById('ai').textContent = '';
-
-            const response = await fetch('/analyze', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code })
-            });
-
-            const data = await response.json();
-            document.getElementById('output').textContent = data.stdout || '[brak wyjścia]';
-            document.getElementById('error').textContent = data.error || '[brak błędów]';
-            document.getElementById('ai').textContent = data.ai_feedback || '[brak informacji od AI]';
-        }
-
-        document.getElementById('uploadForm').addEventListener('submit', async function (e) {
-            e.preventDefault();
-            const fileInput = document.getElementById('file');
-            const file = fileInput.files[0];
-
-            if (!file || !file.name.endsWith('.py')) {
-                alert('Proszę wybrać plik .py');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const response = await fetch('/upload', {
-                method: 'POST',
-                body: formData
-            });
-
-            const data = await response.json();
-            if (data.code) {
-                editor.setValue(data.code);
-            } else {
-                alert('Nie udało się załadować pliku.');
-            }
-        });
-
-        async function applyFixes() {
-            const code = editor.getValue();
-            if (!code.trim()) return;
-
-            const button = event.target;
-            button.disabled = true;
-            button.textContent = "AI poprawia...";
-
-            const response = await fetch('/apply_fixes', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ code })
-            });
-
-            const data = await response.json();
-            editor.setValue(data.fixed_code || "# Nie udało się zastosować poprawek");
-
-            button.disabled = false;
-            button.textContent = "Zastosuj poprawki AI";
-        }
-
-        const chatBtn = document.getElementById('chat-button');
-        const chatBox = document.getElementById('chat-box');
-        const chatInput = document.getElementById('chat-input');
-        const chatHistoryDiv = document.getElementById('chat-history');
-
-        chatBtn.onclick = () => {
-            if (!chatHistoryDiv.hasChildNodes()) {
-                appendMessage('AI', 'Cześć! Jak mogę Ci pomóc?', 'chat-ai');
-            }
-            chatBox.style.display = chatBox.style.display === 'flex' ? 'none' : 'flex';
-        };
-
-        function appendMessage(sender, text, cssClass) {
-            const div = document.createElement('div');
-            div.className = 'chat-message';
-            div.innerHTML = `<span class="${cssClass}">${sender}:</span> ${text}`;
-            chatHistoryDiv.appendChild(div);
-            chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-        }
-
-        async function sendChat() {
-            const prompt = chatInput.value;
-            if (!prompt.trim()) return;
-
-            appendMessage('Ty', prompt, 'chat-user');
-            chatInput.value = '';
-
-            const response = await fetch('/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ prompt })
-            });
-
-            const data = await response.json();
-            appendMessage('AI', data.response, 'chat-ai');
-        }
-
-        document.getElementById("toggle-theme").addEventListener("click", () => {
-            document.body.classList.toggle("light-theme");
-        });
-
-        document.getElementById("download-report").addEventListener("click", () => {
-            const code = editor.getValue();
-            const output = document.getElementById("output").textContent;
-            const error = document.getElementById("error").textContent;
-            const ai = document.getElementById("ai").textContent;
-
-            const content = `Kod:\n${code}\n\nWynik:\n${output}\n\nBłędy:\n${error}\n\nAI Feedback:\n${ai}`;
-            const blob = new Blob([content], { type: "text/plain" });
-            const url = URL.createObjectURL(blob);
-
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "raport.txt";
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        });
-    </script>
-</body>
-</html>
+    input[type="file"] {
+      background-color: #1c1c1c;
+      color: white;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px dashed #888;
+      margin-top: 5px;
+      cursor: pointer;
+    }
+    input[type="file"]::-webkit-file-upload-button {
+      background-color: #1c1c1c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+    }
+    #chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #2979ff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-co
