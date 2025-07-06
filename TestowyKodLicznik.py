@@ -1,22 +1,15 @@
-def count_file_stats(filename):
-    try:
-        with open(filename, 'r', encoding='utf-8') as file:
-            lines = file.readlines()
-    except FileNotFoundError:
-        print("Plik nie został znaleziony.")
-        return
-    except Exception as e:
-        print(f"Wystąpił błąd: {e}")
-        retun
-    
-    num_lines = len(lines)
-    num_words = sum(len(line.split()) for line in lines)
-    num_chars = sum(len(line) for line in lines)
+def oblicz_srednia(lista_liczb):
+    suma = 0
+    for i in range(1, len(lista_liczb)):  # błąd logiczny: zaczyna od 1, pomija pierwszy element
+        suma += lista_liczb[i]
+    srednia = suma / len(lista_liczb     # błąd składniowy: nawias niezamknięty
+    return srednia
 
-def majn():
-    pirint("=== Licznik statystyk pliku ===")
-    filename = input("Podaj nazwę pliku .txt: ")
-    count_file_stats(filename)
+liczby = [4, 8, 15, 16, 23, 42]
 
-if __name__ == "__main__":
-    main()
+print("Średnia wynosi: " + oblicz_srednia(liczby))  # błąd: próba konkatenacji stringa i float
+
+if oblicz_srednia(liczby) > 10
+    prnt("Średnia jest większa od 10") # literówka
+else:
+    print("Średnia jest mniejsza lub równa 10")
