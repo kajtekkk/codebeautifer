@@ -22,20 +22,27 @@ Nie jest wymagane użycie zewnętrznych narzędzi CI/CD.
 
 ## Użyte technologie
 
-- **Python**
-- **Black** – formatowanie kodu,
-- **flake8 / Pylint** – analiza jakości kodu,
-- **OpenAI API** – generowanie sugestii i komentarzy,
-- **Git CLI / GitPython** – automatyzacja zarządzania repozytorium,
-- **PyCharm** – wsparcie dla automatycznego odświeżania.
-
+-  Technologie 
+-Frontend: HTML, CSS, JS, CodeMirror 
+-Backend: Python + Flask 
+-AI: OpenAI GPT-4 
+-Hosting: Render.com 
+-Inne: dotenv, subprocess
+- Bilioteki Python:  flask – obsługa backendu i tras HTTP 
+-  subprocess – uruchamianie kodu użytkownika 
+- openai – integracja z GPT-4 
+- os – operacje systemowe i ścieżki 
+- traceback – wyłapywanie i analiza błędów 
+- dotenv – odczyt klucza API z pliku .env 
+- io – obsługa strumieni danych (raporty) 
+- datetime – znacznik czasu dla raportów 
+ 
 ## Struktura plików
 
-- `my_code.py` – oryginalny kod źródłowy,
-- `my_code_clean.py` – poprawiona wizualnie wersja kodu,
-- `sugestie_ai.txt` – sugestie AI dotyczące jakości kodu,
-- `log.txt` – log działania narzędzia (opcjonalnie).
-
+-  backend.py 
+- static/index.html 
+- .env 
+-  requirements.txt
 ## Wymagania
 
 - Python 3.8+
